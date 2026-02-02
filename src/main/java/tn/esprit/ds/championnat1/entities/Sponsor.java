@@ -3,13 +3,16 @@ package tn.esprit.ds.championnat1.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "sponsor")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = "contrats")
 public class Sponsor {
 
     @Id
@@ -24,4 +27,7 @@ public class Sponsor {
     private Float budgetAnnuel;
 
     private Boolean bloquerContrat;
+
+    @OneToMany(mappedBy = "sponsor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Contrat> contrats = new HashSet<>();
 }

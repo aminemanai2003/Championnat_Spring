@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = "championnat")
 public class DetailChampionnat {
 
     @Id
@@ -19,4 +19,7 @@ public class DetailChampionnat {
     private String code;
 
     private String description;
+
+    @OneToOne(mappedBy = "detailChampionnat")
+    private Championnat championnat;
 }

@@ -2,6 +2,8 @@ package tn.esprit.ds.championnat1.entities;
 
 import tn.esprit.ds.championnat1.enums.Categorie;
 import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "championnat")
@@ -20,6 +22,18 @@ public class Championnat {
 
     @Column(nullable = false)
     private Integer annee;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "detail_champ_id")
+    private DetailChampionnat detailChampionnat;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "championnat_Course",
+        joinColumns = @JoinColumn(name = "championnat_id"),
+        inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private Set<Course> courses = new HashSet<>();
 
     // ===== Constructeur vide obligatoire =====
     public Championnat() {
@@ -60,5 +74,21 @@ public class Championnat {
 
     public void setAnnee(Integer annee) {
         this.annee = annee;
+    }
+
+    public DetailChampionnat getDetailChampionnat() {
+        return detailChampionnat;
+    }
+
+    public void setDetailChampionnat(DetailChampionnat detailChampionnat) {
+        this.detailChampionnat = detailChampionnat;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 }

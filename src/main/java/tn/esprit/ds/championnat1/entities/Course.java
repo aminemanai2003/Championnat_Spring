@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "course")
@@ -11,7 +13,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"championnats", "positions"})
 public class Course {
 
     @Id
@@ -22,4 +24,10 @@ public class Course {
     private String emplacement;
 
     private LocalDate dateCourse;
+
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
+    private Set<Championnat> championnats = new HashSet<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Position> positions = new HashSet<>();
 }

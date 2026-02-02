@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"course", "pilote"})
 public class Position {
 
     @Id
@@ -19,4 +19,12 @@ public class Position {
     private Integer classement;
 
     private Integer nbPoints;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "course_id")
+    private Course course;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "pilote_id")
+    private Pilote pilote;
 }

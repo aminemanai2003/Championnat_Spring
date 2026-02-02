@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"sponsor", "equipe"})
 public class Contrat {
 
     @Id
@@ -21,4 +21,12 @@ public class Contrat {
     private String annee;
 
     private Boolean archived;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "sponsor_id")
+    private Sponsor sponsor;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "equipe_id")
+    private Equipe equipe;
 }

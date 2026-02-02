@@ -3,13 +3,16 @@ package tn.esprit.ds.championnat1.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "equipe")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"pilotes", "contrats"})
 public class Equipe {
 
     @Id
@@ -22,4 +25,10 @@ public class Equipe {
     private Integer nbPointsTotal;
 
     private Integer classementGeneral;
+
+    @OneToMany(mappedBy = "equipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Pilote> pilotes = new HashSet<>();
+
+    @OneToMany(mappedBy = "equipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Contrat> contrats = new HashSet<>();
 }
