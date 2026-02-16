@@ -1,5 +1,6 @@
 package tn.esprit.ds.championnat1.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,10 +23,12 @@ public class Contrat {
 
     private Boolean archived;
 
+    @JsonBackReference("sponsor-contrats")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sponsor_id")
     private Sponsor sponsor;
 
+    @JsonBackReference("equipe-contrats")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "equipe_id")
     private Equipe equipe;

@@ -1,5 +1,6 @@
 package tn.esprit.ds.championnat1.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +21,7 @@ public class DetailChampionnat {
 
     private String description;
 
+    @JsonBackReference("championnat-detail")
     @OneToOne(mappedBy = "detailChampionnat")
     private Championnat championnat;
 }

@@ -16,8 +16,8 @@ public class SponsorService implements ISponsorService {
 
     @Override
     public Sponsor ajouterSponsor(Sponsor sponsor) {
-        // Initialiser datecreation à la date système
-        sponsor.setDatecreation(LocalDate.now());
+        // Initialiser dateCreation à la date système
+        sponsor.setDateCreation(LocalDate.now());
         // Initialiser archived et bloquerContrat à false
         sponsor.setArchived(false);
         sponsor.setBloquerContrat(false);
@@ -29,7 +29,7 @@ public class SponsorService implements ISponsorService {
     public List<Sponsor> ajouterSponsors(List<Sponsor> sponsors) {
         // Initialiser les champs pour chaque sponsor
         sponsors.forEach(sponsor -> {
-            sponsor.setDatecreation(LocalDate.now());
+            sponsor.setDateCreation(LocalDate.now());
             sponsor.setArchived(false);
             sponsor.setBloquerContrat(false);
         });
@@ -39,8 +39,8 @@ public class SponsorService implements ISponsorService {
 
     @Override
     public Sponsor modifierSponsor(Sponsor sponsor) {
-        // Initialiser dateDerniereModificiation à la date système
-        sponsor.setDateDerniereModificiation(LocalDate.now());
+        // Initialiser dateDerniereModification à la date système
+        sponsor.setDateDerniereModification(LocalDate.now());
 
         return sponsorRepository.save(sponsor);
     }

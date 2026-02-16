@@ -1,5 +1,6 @@
 package tn.esprit.ds.championnat1.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,10 +30,11 @@ public class Sponsor {
 
     private Boolean bloquerContrat;
     private Boolean archived;
-    LocalDate datecreation;
-    LocalDate dateDerniereModificiation;
+    private LocalDate dateCreation;
+    private LocalDate dateDerniereModification;
 
 
+    @JsonManagedReference("sponsor-contrats")
     @OneToMany(mappedBy = "sponsor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Contrat> contrats = new HashSet<>();
 }

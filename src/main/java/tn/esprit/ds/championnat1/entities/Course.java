@@ -1,5 +1,7 @@
 package tn.esprit.ds.championnat1.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,9 +27,11 @@ public class Course {
 
     private LocalDate dateCourse;
 
+    @JsonBackReference("championnat-courses")
     @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
     private Set<Championnat> championnats = new HashSet<>();
 
+    @JsonManagedReference("course-positions")
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Position> positions = new HashSet<>();
 }

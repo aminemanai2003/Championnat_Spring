@@ -1,5 +1,6 @@
 package tn.esprit.ds.championnat1.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,9 +27,11 @@ public class Equipe {
 
     private Integer classementGeneral;
 
+    @JsonManagedReference("equipe-pilotes")
     @OneToMany(mappedBy = "equipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Pilote> pilotes = new HashSet<>();
 
+    @JsonManagedReference("equipe-contrats")
     @OneToMany(mappedBy = "equipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Contrat> contrats = new HashSet<>();
 }

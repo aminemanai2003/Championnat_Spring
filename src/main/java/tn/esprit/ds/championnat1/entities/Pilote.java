@@ -1,5 +1,7 @@
 package tn.esprit.ds.championnat1.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,9 +28,11 @@ public class Pilote {
 
     private Integer classementGeneral;
 
+    @JsonManagedReference("pilote-positions")
     @OneToMany(mappedBy = "pilote", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Position> positions = new HashSet<>();
 
+    @JsonBackReference("equipe-pilotes")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "equipe_id")
     private Equipe equipe;

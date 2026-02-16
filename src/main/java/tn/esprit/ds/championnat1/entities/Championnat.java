@@ -1,5 +1,6 @@
 package tn.esprit.ds.championnat1.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import tn.esprit.ds.championnat1.enums.Categorie;
 import jakarta.persistence.*;
 import java.util.HashSet;
@@ -23,10 +24,12 @@ public class Championnat {
     @Column(nullable = false)
     private Integer annee;
 
+    @JsonManagedReference("championnat-detail")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "detail_champ_id")
     private DetailChampionnat detailChampionnat;
 
+    @JsonManagedReference("championnat-courses")
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "championnat_Course",

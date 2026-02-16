@@ -1,5 +1,6 @@
 package tn.esprit.ds.championnat1.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,10 +21,12 @@ public class Position {
 
     private Integer nbPoints;
 
+    @JsonBackReference("course-positions")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "course_id")
     private Course course;
 
+    @JsonBackReference("pilote-positions")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "pilote_id")
     private Pilote pilote;
