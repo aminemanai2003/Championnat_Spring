@@ -3,6 +3,7 @@ package tn.esprit.ds.championnat1.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.ds.championnat1.entities.Sponsor;
+import tn.esprit.ds.championnat1.entities.Contrat;
 import tn.esprit.ds.championnat1.repositories.SponsorRepository;
 
 import java.time.LocalDate;
@@ -71,5 +72,39 @@ public class SponsorService implements ISponsorService {
         }
 
         return false;
+    }
+
+    @Override
+    public float pourcentageBudgetAnnuelConsomme(Long idSponsor) {
+        Sponsor sponsor = sponsorRepository.findById(idSponsor)
+                .orElseThrow(() -> new IllegalArgumentException("Sponsor introuvable: " + idSponsor));
+
+        float budgetAnnuel = sponsor.getBudgetAnnuel() != null ? sponsor.getBudgetAnnuel() : 0f;
+        if (budgetAnnuel <= 0f) {
+            return 0f;
+        }
+
+        int anneeCourante = LocalDate.now().getYear();
+        float totalDepenses = 0f;
+
+        for (Contrat contrat : sponsor.getContrats()) {
+            if (contrat == null) {
+                continue;
+            }
+
+            if (Boolean.TRUE.equals(contrat.getArchived())) {
+                continue;
+            }
+
+            if (contrat.getAnnee() == null || !contrat.getAnnee().trim().equals(String.valueOf(anneeCourante))) {
+                continue;
+            }
+
+            if (contrat.getMontant() != null) {
+                totalDepenses += contrat.getMontant();
+            }
+        }
+
+        return (totalDepenses / budgetAnnuel) * 100f;
     }
 }
