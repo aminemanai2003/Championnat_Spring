@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import tn.esprit.ds.championnat1.enums.Categorie;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,6 +28,9 @@ public class Pilote {
     private Integer nbPointsTotal;
 
     private Integer classementGeneral;
+
+    @Enumerated(EnumType.STRING)
+    private Categorie categorie;
 
     @JsonManagedReference("pilote-positions")
     @OneToMany(mappedBy = "pilote", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

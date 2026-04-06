@@ -1,6 +1,9 @@
 package tn.esprit.ds.championnat1.service;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tn.esprit.ds.championnat1.entities.Sponsor;
 import tn.esprit.ds.championnat1.entities.Contrat;
@@ -12,6 +15,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SponsorService implements ISponsorService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SponsorService.class);
 
     private final SponsorRepository sponsorRepository;
 
@@ -106,5 +111,23 @@ public class SponsorService implements ISponsorService {
         }
 
         return (totalDepenses / budgetAnnuel) * 100f;
+    }
+
+    @Scheduled(cron = "0 0 9 * * MON")
+    public void afficherPourcentageBudgetDepenseChaqueLundi() {
+        List<Sponsor> sponsors = sponsorRepository.findAll();
+
+        for (Sponsor sponsor : sponsors) {
+            float pourcentage = pourcentageBudgetAnnuelConsomme(sponsor.getIdSponsor());
+            LOGGER.info("sponsor: {} pourcentage : {}", sponsor.getNom(), pourcentage);
+
+            if (pourcentage > 100f) {
+                sponsor.setBloquerContrat(true);
+                sponsorRepository.save(sponsor);
+                LOGGER.info("budget depasse!! vous ne pouvez plus faire de contrats");
+            } else if (pourcentage > 70f) {
+                LOGGER.info("attention budget presque consomme : {} % !", pourcentage);
+            }
+        }
     }
 }
